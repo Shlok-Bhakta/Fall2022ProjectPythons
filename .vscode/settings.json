@@ -1,0 +1,15 @@
+{
+  "python.analysis.typeCheckingMode": "basic",
+  "cSpell.words": [
+    "blit",
+    "blits",
+    "fruitcol",
+    "KEYDOWN",
+    "keypresses",
+    "snakecol",
+    "Snek",
+    "startvector",
+    "USEREVENT",
+    "VIDEORESIZE"
+  ]
+}
