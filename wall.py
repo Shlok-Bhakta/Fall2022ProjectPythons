@@ -36,3 +36,7 @@ class WALL:
                 walls.append(Vector2((CELL_NUMBER-i), close_amount-j))
                 walls.append(
                     Vector2((CELL_NUMBER-i), CELL_NUMBER-close_amount-1+j))
+
+    def update(self, screen):
+        self.make_wall()
+        self.draw_wall(screen)

@@ -43,8 +43,8 @@ snake_1 = SNAKE(initial_vector=[Vector2(int(CELL_NUMBER/2+4),
                                         int(CELL_NUMBER/2)),
                                 Vector2(int(CELL_NUMBER/2+2),
                                         int(CELL_NUMBER/2))],
-                snakecol=python_blue_color,
-                dn="blue Snek")
+                snake_col=python_blue_color,
+                snake_name="Blue")
 snake_2 = SNAKE(start_direction=LEFT_VECTOR,
                 initial_vector=[Vector2(int(CELL_NUMBER/2-4),
                                         int(CELL_NUMBER/2)),
@@ -52,8 +52,8 @@ snake_2 = SNAKE(start_direction=LEFT_VECTOR,
                                         int(CELL_NUMBER/2)),
                                 Vector2(int(CELL_NUMBER/2-2),
                                         int(CELL_NUMBER/2))],
-                snakecol=python_yellow_color,
-                dn="yellow Snek")
+                snake_col=python_yellow_color,
+                snake_name="Yellow")
 # A wall that will slowly close in, limiting the play area
 wall = WALL()
 # Screen time timer
@@ -95,7 +95,7 @@ while True:
     for i in fruits:
         i.draw_elements(game_surface)
     # draws the walls to the game_surface
-    wall.draw_wall(game_surface)
+    wall.update(game_surface)
     # blits (puts on top of) the game_surface to the scale surface in the
     # position of the rectangle made at the beginning of the loop (basically the center)
     scale_surface.blit(game_surface, rect)

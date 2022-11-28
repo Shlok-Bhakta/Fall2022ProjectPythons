@@ -25,8 +25,12 @@ def snake_screen_update(event, snake=[], fruit=[]):
     global snake_pos
     global fruit_pos
     if event.type == SCREEN_UPDATE:
-        for i in snake:
-            i.update()
+        for i in range(len(snake)):
+            other_bodies = []
+            for j in range(len(snake)):
+                if not (i == j):
+                    other_bodies += snake[j].get_snake_positions()
+            snake[i].update(other_bodies)
         snake_pos = []
         fruit_pos = []
         for i in snake:

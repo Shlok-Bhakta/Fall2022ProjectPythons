@@ -19,6 +19,8 @@ walls = []
 # Try changing this to something bigger than 0
 # and run pythons.py and see what happens ;)
 close_amount = 0
+# how long it takes for each step to close
+close_interval = 0
 
 # The colors of the game
 screen_color = (10, 200, 70)
@@ -42,3 +44,4 @@ RIGHT_VECTOR = Vector2(1, 0)
 # arrays that know what spaces are filled with snakes and fruit
 fruit_pos = []
 snake_pos = []
+heads = []
