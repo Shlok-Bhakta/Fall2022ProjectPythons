@@ -1,3 +1,4 @@
+from enum import unique
 import pygame
 from pygame.math import Vector2
 from global_values import *
@@ -9,6 +10,8 @@ class WALL:
     def __init__(self):
         """init wall class
         """
+        self.wall_increment = 0
+        self.close_amount = close.get_close_amount()
         self.make_wall()
 
     def draw_wall(self, screen):
@@ -27,16 +30,20 @@ class WALL:
     def make_wall(self):
         """makes the array positions of the walls to draw
         """
-        for j in range(1, close_amount+1):
+        global walls
+        self.wall_increment += 1
+        for j in range(1, self.close_amount+1):
             for i in range(CELL_NUMBER+1):
                 walls.append(
-                    Vector2(close_amount-j, (CELL_NUMBER-i)))
+                    Vector2(self.close_amount-j, (CELL_NUMBER-i)))
                 walls.append(
-                    Vector2(CELL_NUMBER-close_amount-1+j, (CELL_NUMBER-i)))
-                walls.append(Vector2((CELL_NUMBER-i), close_amount-j))
+                    Vector2(CELL_NUMBER-self.close_amount-1+j, (CELL_NUMBER-i)))
+                walls.append(Vector2((CELL_NUMBER-i), self.close_amount-j))
                 walls.append(
-                    Vector2((CELL_NUMBER-i), CELL_NUMBER-close_amount-1+j))
+                    Vector2((CELL_NUMBER-i), CELL_NUMBER-self.close_amount-1+j))
+        print(len(walls))
 
     def update(self, screen):
-        self.make_wall()
         self.draw_wall(screen)
+        self.close_amount = close.get_close_amount()
+        #print(f"wall Close Amount {self.close_amount}")

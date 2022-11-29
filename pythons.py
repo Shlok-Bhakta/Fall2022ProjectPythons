@@ -12,6 +12,7 @@ from snake import *
 from game_events import *
 from global_values import *
 from wall import *
+from close_amount import *
 # WATCH THIS to 30:00 or you will be clueless
 # https://youtu.be/QFvqStqPCRU?t=226
 
@@ -56,8 +57,11 @@ snake_2 = SNAKE(start_direction=LEFT_VECTOR,
                 snake_name="Yellow")
 # A wall that will slowly close in, limiting the play area
 wall = WALL()
+
 # Screen time timer
 pygame.time.set_timer(SCREEN_UPDATE, 120)
+pygame.time.set_timer(WALL_UPDATE, 3600)
+
 
 # Create the main game loop (all the calculations and stuff happen here)
 while True:
@@ -77,6 +81,8 @@ while True:
         snake_screen_update(event, [snake_1, snake_2], fruits)
         # moves snake_1 with the arrow keys (blue snek)
         arrow_move(event, snake_1)
+        # updates the wall size variable
+        wall_update(event, wall)
         # moves snake_2 with the W/A/S/D keys
         arrow_move(event, snake_2,
                    up=pygame.K_w,

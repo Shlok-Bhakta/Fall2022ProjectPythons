@@ -12,8 +12,11 @@ class FRUIT:
         """Runs on Create of the FRUIT object
         """
         # Get an x and y position that doesn't have a snake in it
-        self.x = random.randint(close_amount+1, (CELL_NUMBER-close_amount)-2)
-        self.y = random.randint(close_amount+1, (CELL_NUMBER-close_amount)-2)
+        self.close_amount = close.get_close_amount()
+        self.x = random.randint(self.close_amount+1,
+                                (CELL_NUMBER-self.close_amount)-2)
+        self.y = random.randint(self.close_amount+1,
+                                (CELL_NUMBER-self.close_amount)-2)
         self.pos = Vector2(self.x, self.y)
         self.color = color
 
@@ -23,6 +26,7 @@ class FRUIT:
         Args:
             screen (pygame.display): The main screen of the Game
         """
+        self.out_fruit()
         x_pos = int(self.pos.x * CELL_SIZE)
         y_pos = int(self.pos.y * CELL_SIZE)
         # make a rectangle
@@ -37,8 +41,11 @@ class FRUIT:
             snake_pos2 (_type_): an array of every body part of the snake
             fruit_pos2 (_type_): an array of every fruit
         """
-        self.x = random.randint(close_amount+1, (CELL_NUMBER-close_amount)-2)
-        self.y = random.randint(close_amount+1, (CELL_NUMBER-close_amount)-2)
+        self.close_amount = close.get_close_amount()
+        self.x = random.randint(self.close_amount+1,
+                                (CELL_NUMBER-self.close_amount)-2)
+        self.y = random.randint(self.close_amount+1,
+                                (CELL_NUMBER-self.close_amount)-2)
         self.pos = Vector2(self.x, self.y)
         temp = []
         for i in snake_pos2:
@@ -63,6 +70,7 @@ class FRUIT:
         Args:
             screen (_type_): The screen/surface that the fruit should be drawn to
         """
+
         self.draw_fruit(screen)
 
     def get_fruit_positions(self):
@@ -72,3 +80,9 @@ class FRUIT:
             Vector2: a Vector2 of the fruits position
         """
         return self.pos
+
+    def out_fruit(self):
+        if not self.close_amount <= self.pos.x < CELL_NUMBER-self.close_amount:
+            print("fruit left")
+        if not self.close_amount <= self.pos.y < CELL_NUMBER-self.close_amount:
+            print("fruit left")

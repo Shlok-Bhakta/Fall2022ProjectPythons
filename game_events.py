@@ -114,3 +114,12 @@ def window_resize(event, screen):
             cell_size += 1
 
         return int(cell_size - 1)
+
+
+def wall_update(event, wall):
+    if event.type == WALL_UPDATE:
+        if not (close.get_close_amount() > wall_cutoff):
+            close_amount = close.get_close_amount() + 1
+            close.set_close_amount(close_amount)
+            # print(f"close_amount: {close.get_close_amount()}")
+            wall.make_wall()

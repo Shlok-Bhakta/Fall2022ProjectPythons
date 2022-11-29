@@ -27,6 +27,7 @@ class SNAKE:
         # Right is 4
         self.previous_direction = RIGHT_VALUE
         self.start_direction = self.previous_direction
+        self.close_amount = close.get_close_amount()
 
     def draw_snake(self, screen):
         """Draws the snake to the screen as a series of rectangles
@@ -72,9 +73,9 @@ class SNAKE:
         """Checks to see if the snake collides with itself
         """
         # check if colliding with the walls (cheating by using the dimensions of the board))
-        if not close_amount <= self.body[0].x < CELL_NUMBER-close_amount:
+        if not self.close_amount <= self.body[0].x < CELL_NUMBER-self.close_amount:
             self.game_over()
-        if not close_amount <= self.body[0].y < CELL_NUMBER-close_amount:
+        if not self.close_amount <= self.body[0].y < CELL_NUMBER-self.close_amount:
             self.game_over()
         # check if colliding with itself
         for block in self.body[1:]:
@@ -95,10 +96,12 @@ class SNAKE:
         print("Game Over")
 
     def update(self, other_snake):
-        """updates the snake's copllision checking
+        """updates the snake's collision checking
         """
         self.check_snake_collision(other_snake)
         self.move_snake()
+        self.close_amount = close.get_close_amount()
+        # print(f"{self.name} update snek")
 
     def get_snake_positions(self):
         """returns a Vector2 array of the snake's positions

@@ -1,12 +1,13 @@
 import pygame
 from pygame.math import Vector2
+from close_amount import *
 # size and number of cells
 CELL_NUMBER = 29
 CELL_SIZE = 32
 
 # screen update event
 SCREEN_UPDATE = pygame.USEREVENT
-
+WALL_UPDATE = pygame.USEREVENT + 1
 # values to make sure the snake doesn't collide with itself (should *cough* *cough)
 UP_VALUE = 1
 DOWN_VALUE = 2
@@ -18,9 +19,9 @@ walls = []
 # how closed the wall should be.
 # Try changing this to something bigger than 0
 # and run pythons.py and see what happens ;)
-close_amount = 0
-# how long it takes for each step to close
-close_interval = 0
+# creates a wall close amount
+close = CLOSE_AMOUNT(initial_amount=0)
+wall_cutoff = 7
 
 # The colors of the game
 screen_color = (10, 200, 70)
