@@ -41,7 +41,7 @@ class WALL:
                 walls.append(Vector2((CELL_NUMBER-i), self.close_amount-j))
                 walls.append(
                     Vector2((CELL_NUMBER-i), CELL_NUMBER-self.close_amount-1+j))
-        print(len(walls))
+        # print(len(walls))
 
     def update(self, screen):
         self.draw_wall(screen)

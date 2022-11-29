@@ -13,12 +13,14 @@ class FRUIT:
         """
         # Get an x and y position that doesn't have a snake in it
         self.close_amount = close.get_close_amount()
-        self.x = random.randint(self.close_amount+1,
-                                (CELL_NUMBER-self.close_amount)-2)
-        self.y = random.randint(self.close_amount+1,
-                                (CELL_NUMBER-self.close_amount)-2)
+        self.x = random.randint(self.close_amount,
+                                (CELL_NUMBER-self.close_amount)-1)
+        self.y = random.randint(self.close_amount,
+                                (CELL_NUMBER-self.close_amount)-1)
         self.pos = Vector2(self.x, self.y)
         self.color = color
+        self.snake = []
+        self.fruit = []
 
     def draw_fruit(self, screen):
         """Draws the fruit to the screen as a rectangle
@@ -41,11 +43,13 @@ class FRUIT:
             snake_pos2 (_type_): an array of every body part of the snake
             fruit_pos2 (_type_): an array of every fruit
         """
+        self.snake = snake_pos2
+        self.fruit = fruit_pos2
         self.close_amount = close.get_close_amount()
-        self.x = random.randint(self.close_amount+1,
-                                (CELL_NUMBER-self.close_amount)-2)
-        self.y = random.randint(self.close_amount+1,
-                                (CELL_NUMBER-self.close_amount)-2)
+        self.x = random.randint(self.close_amount,
+                                (CELL_NUMBER-self.close_amount)-1)
+        self.y = random.randint(self.close_amount,
+                                (CELL_NUMBER-self.close_amount)-1)
         self.pos = Vector2(self.x, self.y)
         temp = []
         for i in snake_pos2:
@@ -82,7 +86,10 @@ class FRUIT:
         return self.pos
 
     def out_fruit(self):
+        global CELL_NUMBER
+        self.close_amount = close.get_close_amount()-1
+        # print("outfruit")
         if not self.close_amount <= self.pos.x < CELL_NUMBER-self.close_amount:
-            print("fruit left")
+            self.randomize_fruit(self.snake, self.fruit)
         if not self.close_amount <= self.pos.y < CELL_NUMBER-self.close_amount:
-            print("fruit left")
+            self.randomize_fruit(self.snake, self.fruit)
