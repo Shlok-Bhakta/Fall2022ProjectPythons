@@ -2,6 +2,7 @@ import pygame
 from pygame.math import Vector2
 import sys
 from global_values import *
+from speed_up import *
 
 
 def quit_game(event):
@@ -15,7 +16,7 @@ def quit_game(event):
         sys.exit()
 
 
-def snake_screen_update(event, snake=[], fruit=[]):
+def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]):
     """Moves the snake on the update of the screen
 
     Args:
@@ -123,3 +124,16 @@ def wall_update(event, wall):
             close.set_close_amount(close_amount)
             # print(f"close_amount: {close.get_close_amount()}")
             wall.make_wall()
+
+
+active = False
+
+
+def draw_speed_power(event, draw_speed):
+    if event.type == SPEED_SPAWN:
+        draw_speed.set_draw_speed(True)
+
+
+def draw_slow_power(event, draw_slow):
+    if event.type == SPEED_SPAWN:
+        draw_slow.set_draw_slow(True)

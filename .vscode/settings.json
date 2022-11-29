@@ -6,9 +6,11 @@
     "fruitcol",
     "KEYDOWN",
     "keypresses",
+    "outpower",
     "snakecol",
     "Snek",
     "startvector",
+    "temptime",
     "USEREVENT",
     "VIDEORESIZE"
   ]

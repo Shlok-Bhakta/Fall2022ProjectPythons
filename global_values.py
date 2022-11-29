@@ -8,6 +8,8 @@ CELL_SIZE = 32
 # screen update event
 SCREEN_UPDATE = pygame.USEREVENT
 WALL_UPDATE = pygame.USEREVENT + 1
+SPEED_SPAWN = pygame.USEREVENT + 2
+SLOW_SPAWN = pygame.USEREVENT + 3
 # values to make sure the snake doesn't collide with itself (should *cough* *cough)
 UP_VALUE = 1
 DOWN_VALUE = 2
@@ -31,6 +33,8 @@ snake_color = (100, 10, 10)
 python_blue_color = (56, 110, 157)
 python_yellow_color = (254, 216, 71)
 wall_color = (10, 200, 10)
+speed_color = (245, 0, 253)
+slow_color = (0, 255, 255)
 
 # an attempt to fix the snake clipping
 right = False
@@ -45,4 +49,5 @@ RIGHT_VECTOR = Vector2(1, 0)
 # arrays that know what spaces are filled with snakes and fruit
 fruit_pos = []
 snake_pos = []
-heads = []
+speed_pos = []
+slow_pos = []
