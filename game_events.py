@@ -3,6 +3,7 @@ from pygame.math import Vector2
 import sys
 from global_values import *
 from speed_up import *
+from slow_down import *
 
 
 def quit_game(event):
@@ -26,27 +27,54 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
     global snake_pos
     global fruit_pos
     if event.type == SCREEN_UPDATE:
+        snake_pos = []
+        fruit_pos = []
+        speed_pos = []
+        slow_pos = []
+        for i in snake:
+            snake_pos.append(i.get_snake_positions())
+
+        for i in fruit:
+            fruit_pos.append(i.get_fruit_positions())
+
+        for i in speed_power:
+            speed_pos.append(i.get_speed_power_positions())
+
+        for i in slow_power:
+            slow_pos.append(i.get_slow_power_positions())
+        #print(f"speed Positions {speed_pos}")
+        #print(f"slow Positions {slow_pos}")
+        # print("\n###########################################################")
+        # Snake collision with fruit
+        for i in range(len(fruit_pos)):
+            for j in range(len(snake)):
+                if fruit_pos[i] == snake_pos[j][0]:
+                    snake[j].add_block()
+                    fruit[i].randomize_fruit(snake_pos, fruit_pos)
+
+        # Snake collision with Speed Powerup
+        for i in range(len(speed_pos)):
+            for j in range(len(snake)):
+                if speed_pos[i] == snake_pos[j][0]:
+                    snake[j].boost()
+                    speed_power[i].randomize_speed_power(snake_pos, speed_pos)
+        # Snake collision with Slow Powerup
+        for i in range(len(slow_pos)):
+            for j in range(len(snake)):
+                if slow_pos[i] == snake_pos[j][0]:
+                    for k in range(len(snake)):
+                        if snake[j] != snake[k]:
+                            snake[k].slow()
+                            slow_power[i].randomize_slow_power(
+                                snake_pos, slow_pos)
+
+        # Snake collision with other snakes
         for i in range(len(snake)):
             other_bodies = []
             for j in range(len(snake)):
                 if not (i == j):
                     other_bodies += snake[j].get_snake_positions()
             snake[i].update(other_bodies)
-        snake_pos = []
-        fruit_pos = []
-        for i in snake:
-            snake_pos.append(i.get_snake_positions())
-
-        for i in fruit:
-            fruit_pos.append(i.get_fruit_positions())
-        # print(f"Snake Positions {snake_pos}")
-        # print(f"Fruit Positions {fruit_pos}")
-        # print("\n###########################################################")
-        for i in range(len(fruit_pos)):
-            for j in range(len(snake)):
-                if fruit_pos[i] == snake_pos[j][0]:
-                    snake[j].add_block()
-                    fruit[i].randomize_fruit(snake_pos, fruit_pos)
 
 
 def arrow_move(event, snake, up=pygame.K_UP, down=pygame.K_DOWN, left=pygame.K_LEFT, right=pygame.K_RIGHT):
@@ -61,36 +89,18 @@ def arrow_move(event, snake, up=pygame.K_UP, down=pygame.K_DOWN, left=pygame.K_L
         right (_type_, optional): what button to press to go right. Defaults to pygame.K_RIGHT.
     """
     if event.type == pygame.KEYDOWN:
-        if (snake.moved == True):
-            if event.key == down and snake.previous_direction != UP_VALUE:
-                snake.direction = DOWN_VECTOR
-                snake.previous_direction = DOWN_VALUE
-                snake.moved = False
-            elif event.key == up and snake.previous_direction != DOWN_VALUE:
-                snake.direction = UP_VECTOR
-                snake.previous_direction = UP_VALUE
-                snake.moved = False
-            elif event.key == left and snake.previous_direction != RIGHT_VALUE:
-                snake.direction = LEFT_VECTOR
-                snake.previous_direction = LEFT_VALUE
-                snake.moved = False
-            elif event.key == right and snake.previous_direction != LEFT_VALUE:
-                snake.direction = RIGHT_VECTOR
-                snake.previous_direction = RIGHT_VALUE
-                snake.moved = False
-    # self clipping prevention (20% success for some reason)
-    if snake.start_direction == DOWN_VALUE and snake.previous_direction == UP_VALUE:
-        print("SELF CLIPPING")
-        snake.direction = RIGHT_VECTOR
-    elif snake.start_direction == UP_VALUE and snake.previous_direction == DOWN_VALUE:
-        print("SELF CLIPPING")
-        snake.direction = LEFT_VECTOR
-    elif snake.start_direction == LEFT_VALUE and snake.previous_direction == RIGHT_VALUE:
-        print("SELF CLIPPING")
-        snake.direction = DOWN_VECTOR
-    elif snake.start_direction == RIGHT_VALUE and snake.previous_direction == LEFT_VALUE:
-        print("SELF CLIPPING")
-        snake.direction = UP_VECTOR
+        if event.key == down and snake.previous_direction != UP_VALUE:
+            snake.direction = DOWN_VECTOR
+            snake.previous_direction = DOWN_VALUE
+        elif event.key == up and snake.previous_direction != DOWN_VALUE:
+            snake.direction = UP_VECTOR
+            snake.previous_direction = UP_VALUE
+        elif event.key == left and snake.previous_direction != RIGHT_VALUE:
+            snake.direction = LEFT_VECTOR
+            snake.previous_direction = LEFT_VALUE
+        elif event.key == right and snake.previous_direction != LEFT_VALUE:
+            snake.direction = RIGHT_VECTOR
+            snake.previous_direction = RIGHT_VALUE
 
 
 def window_resize(event, screen):
@@ -126,14 +136,21 @@ def wall_update(event, wall):
             wall.make_wall()
 
 
-active = False
-
-
-def draw_speed_power(event, draw_speed):
+def spawn_speed_power(event):
     if event.type == SPEED_SPAWN:
-        draw_speed.set_draw_speed(True)
+        speed_power = []
+        for i in range(1):
+            speed_power.append(SPEED_POWER())
+        return speed_power
+    else:
+        return []
 
 
-def draw_slow_power(event, draw_slow):
-    if event.type == SPEED_SPAWN:
-        draw_slow.set_draw_slow(True)
+def spawn_slow_power(event):
+    if event.type == SLOW_SPAWN:
+        slow_power = []
+        for i in range(1):
+            slow_power.append(SLOW_POWER())
+        return slow_power
+    else:
+        return []

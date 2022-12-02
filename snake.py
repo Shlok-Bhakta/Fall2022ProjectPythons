@@ -20,7 +20,15 @@ class SNAKE:
         self.direction = start_direction
         self.new_block = False
         self.color = snake_col
-        self.moved = True
+        self.moved = False
+        self.speed = 1
+        self.default_speed = 1
+        self.boosted_speed = 0
+        self.slow_speed = 4
+        self.boost_spent = 0
+        self.boosted_tiles = 20
+        self.slow_spent = 0
+        self.slow_tiles = 15
         # Up is 1
         # Down is 2
         # Left is 3
@@ -28,6 +36,7 @@ class SNAKE:
         self.previous_direction = RIGHT_VALUE
         self.start_direction = self.previous_direction
         self.close_amount = close.get_close_amount()
+        self.increment = 0
 
     def draw_snake(self, screen):
         """Draws the snake to the screen as a series of rectangles
@@ -48,13 +57,21 @@ class SNAKE:
         """
 
         global moved
-        if self.new_block == True:
-            body_copy = self.body[:]
+        if self.increment >= self.speed:
+            if self.new_block == True:
+                body_copy = self.body[:]
+            else:
+                body_copy = self.body[:-1]
+            body_copy.insert(0, body_copy[0] + self.direction)
+            self.body = body_copy
+            self.new_block = False
+            self.increment = 0
+            if self.speed == self.boosted_speed:
+                self.boost()
+            if self.speed == self.slow_speed:
+                self.slow()
         else:
-            body_copy = self.body[:-1]
-        body_copy.insert(0, body_copy[0] + self.direction)
-        self.body = body_copy
-        self.new_block = False
+            self.increment += 1
 
     def add_block(self):
         """makes the snake increase by one size
@@ -98,9 +115,9 @@ class SNAKE:
     def update(self, other_snake):
         """updates the snake's collision checking
         """
+        self.close_amount = close.get_close_amount()
         self.check_snake_collision(other_snake)
         self.move_snake()
-        self.close_amount = close.get_close_amount()
         # print(f"{self.name} update snek")
 
     def get_snake_positions(self):
@@ -110,3 +127,25 @@ class SNAKE:
             list[Vector2]: Vector2 array of the snake positions
         """
         return self.body
+
+    def get_snake_moved(self):
+        return self.moved
+
+    def set_snake_moved(self, input: bool):
+        self.moved = input
+
+    def boost(self):
+        self.speed = self.boosted_speed
+        if self.boost_spent <= self.boosted_tiles:
+            self.boost_spent += 1
+        else:
+            self.speed = self.default_speed
+            self.boost_spent = 0
+
+    def slow(self):
+        self.speed = self.slow_speed
+        if self.slow_spent <= self.slow_tiles:
+            self.slow_spent += 1
+        else:
+            self.speed = self.default_speed
+            self.slow_spent = 0

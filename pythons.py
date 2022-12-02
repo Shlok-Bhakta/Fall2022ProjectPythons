@@ -44,13 +44,13 @@ for i in range(2):
     fruits.append(FRUIT())
 
 
-speed_power = []
-for i in range(1):
-    speed_power.append(SPEED_POWER())
+# speed_power = []
+# for i in range(1):
+#     speed_power.append(SPEED_POWER())
 
-slow_power = []
-for i in range(1):
-    slow_power.append(SLOW_POWER())
+# slow_power = []
+# for i in range(1):
+#     slow_power.append(SLOW_POWER())
 # Creates 2 snakes that have to fight and compete to eliminate each other
 snake_1 = SNAKE(initial_vector=[Vector2(int(CELL_NUMBER/2+4),
                                         int(CELL_NUMBER/2)),
@@ -77,12 +77,14 @@ temptime = 2000
 # temptime = random.randint(0, 10000) * random.randint(0, 10)
 temptime2 = 2000
 # temptime2 = random.randint(0, 10000) * random.randint(0, 10)
-pygame.time.set_timer(SCREEN_UPDATE, 120)
+pygame.time.set_timer(SCREEN_UPDATE, 60)
 pygame.time.set_timer(WALL_UPDATE, 3600)
 pygame.time.set_timer(SPEED_SPAWN, temptime)
 pygame.time.set_timer(SLOW_SPAWN, temptime2)
-draw_speed = DRAW_SPEED(False)
-draw_slow = DRAW_SLOW(False)
+# draw_speed = DRAW_SPEED(False)
+# draw_slow = DRAW_SLOW(False)
+speed_power = []
+slow_power = []
 # Create the main game loop (all the calculations and stuff happen here)
 while True:
     # this rectangle is so we can set the game to be in the center of the screen
@@ -90,8 +92,6 @@ while True:
         center=(screen.get_width()/2, screen.get_height()/2))
     # FIXME snake clips through itself if you press down and right at the same time or up and left
     # hours wasted = 5
-    snake_1.moved = True
-    snake_2.moved = True
     # the event loop, captures stuff like keypresses and mouse movement
     for event in pygame.event.get():
         # debug line to see what events are happening
@@ -103,11 +103,14 @@ while True:
         # updates the wall size variable
         wall_update(event, wall)
         # sets the flag to show the speed power up
-        draw_speed_power(event, draw_speed)
+        if (len(speed_power) < max_speed):
+            speed_power += spawn_speed_power(event)
         # sets the flag to show the slow power up
-        draw_slow_power(event, draw_slow)
+        if (len(slow_power) < max_slow):
+            slow_power += spawn_slow_power(event)
         # moves snake_1 with the arrow keys (blue snek)
         arrow_move(event, snake_1)
+        print(snake_1.get_snake_moved())
         # moves snake_2 with the W/A/S/D keys
         arrow_move(event, snake_2,
                    up=pygame.K_w,
@@ -125,12 +128,10 @@ while True:
     # draws the fruits to the game_surface
     for i in fruits:
         i.draw_elements(game_surface)
-    if draw_speed.get_draw_speed() == True:
-        for i in speed_power:
-            i.draw_elements(game_surface)
-    if draw_slow.get_draw_slow() == True:
-        for i in slow_power:
-            i.draw_elements(game_surface)
+    for i in speed_power:
+        i.draw_elements(game_surface)
+    for i in slow_power:
+        i.draw_elements(game_surface)
     # draws the speed_power to the game_surface
     # draws the walls to the game_surface
     wall.update(game_surface)
