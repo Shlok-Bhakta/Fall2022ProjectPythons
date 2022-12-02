@@ -21,6 +21,7 @@ class FRUIT:
         self.color = color
         self.snake = []
         self.fruit = []
+        self.apple_icon = pygame.image.load("Assets/apple.png").convert_alpha()
 
     def draw_fruit(self, screen):
         """Draws the fruit to the screen as a rectangle
@@ -34,7 +35,8 @@ class FRUIT:
         # make a rectangle
         fruit_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
         # draw the rectangle
-        pygame.draw.rect(screen, self.color, fruit_rect)
+        #pygame.draw.rect(screen, self.color, fruit_rect)
+        screen.blit(self.apple_icon, fruit_rect)
 
     def randomize_fruit(self, snake_pos2, fruit_pos2):
         """places the fruit randomly and tries to avoid placing it inside the snake

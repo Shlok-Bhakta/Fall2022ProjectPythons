@@ -110,7 +110,7 @@ while True:
             slow_power += spawn_slow_power(event)
         # moves snake_1 with the arrow keys (blue snek)
         arrow_move(event, snake_1)
-        print(snake_1.get_snake_moved())
+        # print(snake_1.get_snake_moved())
         # moves snake_2 with the W/A/S/D keys
         arrow_move(event, snake_2,
                    up=pygame.K_w,

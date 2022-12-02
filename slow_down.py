@@ -22,6 +22,8 @@ class SLOW_POWER:
         self.snake = []
         self.slow_power = []
         self.power_up = []
+        self.slow_icon = pygame.image.load(
+            "Assets/timeslow.png").convert_alpha()
 
     def draw_slow_power(self, screen):
         """Draws the slow_power to the screen as a rectangle
@@ -35,7 +37,8 @@ class SLOW_POWER:
         # make a rectangle
         slow_power_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
         # draw the rectangle
-        pygame.draw.rect(screen, self.color, slow_power_rect)
+        #pygame.draw.rect(screen, self.color, slow_power_rect)
+        screen.blit(self.slow_icon, slow_power_rect)
 
     def randomize_slow_power(self, snake_pos2, slow_power_pos2):
         """places the slow_power randomly and tries to avoid placing it inside the snake

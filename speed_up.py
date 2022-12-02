@@ -22,6 +22,8 @@ class SPEED_POWER:
         self.snake = []
         self.speed_power = []
         self.power_up = []
+        self.speed_icon = pygame.image.load(
+            "Assets/speedup.png").convert_alpha()
 
     def draw_speed_power(self, screen):
         """Draws the speed_power to the screen as a rectangle
@@ -35,7 +37,8 @@ class SPEED_POWER:
         # make a rectangle
         speed_power_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
         # draw the rectangle
-        pygame.draw.rect(screen, self.color, speed_power_rect)
+        #pygame.draw.rect(screen, self.color, speed_power_rect)
+        screen.blit(self.speed_icon, speed_power_rect)
 
     def randomize_speed_power(self, snake_pos2, speed_power_pos2):
         """places the speed_power randomly and tries to avoid placing it inside the snake

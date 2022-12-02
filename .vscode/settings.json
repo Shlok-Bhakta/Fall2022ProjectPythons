@@ -3,6 +3,7 @@
   "cSpell.words": [
     "blit",
     "blits",
+    "direc",
     "fruitcol",
     "KEYDOWN",
     "keypresses",
@@ -13,6 +14,7 @@
     "Snek",
     "startvector",
     "temptime",
+    "timeslow",
     "USEREVENT",
     "VIDEORESIZE"
   ]

@@ -55,3 +55,5 @@ slow_pos = []
 # maximum amount of powerups
 max_speed = 1
 max_slow = 1
+
+# images

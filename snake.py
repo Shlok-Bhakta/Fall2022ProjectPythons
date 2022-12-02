@@ -29,6 +29,7 @@ class SNAKE:
         self.boosted_tiles = 20
         self.slow_spent = 0
         self.slow_tiles = 15
+        self.last_movement = start_direction
         # Up is 1
         # Down is 2
         # Left is 3
@@ -56,8 +57,9 @@ class SNAKE:
         """Moves the snake in a vector direction
         """
 
-        global moved
+        self.correct_movement()
         if self.increment >= self.speed:
+            self.last_movement = self.direction
             if self.new_block == True:
                 body_copy = self.body[:]
             else:
@@ -104,8 +106,17 @@ class SNAKE:
                 print(f"{self.name}: other snake collision detected")
         if self.body[0] == other_snakes[0]:
             print(f"{self.name}: head collision detected")
-
         #print("collision checked")
+
+    def correct_movement(self):
+        if self.direction == DOWN_VECTOR and self.last_movement == UP_VECTOR:
+            self.direction = UP_VECTOR
+        if self.direction == UP_VECTOR and self.last_movement == DOWN_VECTOR:
+            self.direction = DOWN_VECTOR
+        if self.direction == LEFT_VECTOR and self.last_movement == RIGHT_VECTOR:
+            self.direction = RIGHT_VECTOR
+        if self.direction == RIGHT_VECTOR and self.last_movement == LEFT_VECTOR:
+            self.direction = LEFT_VECTOR
 
     def game_over(self):
         """does an action on game_over
@@ -127,6 +138,9 @@ class SNAKE:
             list[Vector2]: Vector2 array of the snake positions
         """
         return self.body
+
+    def get_direction(self):
+        return self.direction
 
     def get_snake_moved(self):
         return self.moved

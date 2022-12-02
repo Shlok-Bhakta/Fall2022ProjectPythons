@@ -90,17 +90,20 @@ def arrow_move(event, snake, up=pygame.K_UP, down=pygame.K_DOWN, left=pygame.K_L
     """
     if event.type == pygame.KEYDOWN:
         if event.key == down and snake.previous_direction != UP_VALUE:
-            snake.direction = DOWN_VECTOR
             snake.previous_direction = DOWN_VALUE
+            snake.direction = DOWN_VECTOR
+
         elif event.key == up and snake.previous_direction != DOWN_VALUE:
-            snake.direction = UP_VECTOR
             snake.previous_direction = UP_VALUE
+            snake.direction = UP_VECTOR
+
         elif event.key == left and snake.previous_direction != RIGHT_VALUE:
-            snake.direction = LEFT_VECTOR
             snake.previous_direction = LEFT_VALUE
+            snake.direction = LEFT_VECTOR
+
         elif event.key == right and snake.previous_direction != LEFT_VALUE:
-            snake.direction = RIGHT_VECTOR
             snake.previous_direction = RIGHT_VALUE
+            snake.direction = RIGHT_VECTOR
 
 
 def window_resize(event, screen):
