@@ -39,6 +39,16 @@ class SNAKE:
         self.close_amount = close.get_close_amount()
         self.increment = 0
 
+        # Importing image assets
+        self.head = pygame.image.load(
+            "Assets/bluesnake/snake_head.png").convert_alpha()
+        self.mid = pygame.image.load(
+            "Assets/bluesnake/Python Game Blue Body.png").convert_alpha()
+        self.tail = pygame.image.load(
+            "Assets/bluesnake/Python Game Blue Tail.png").convert_alpha()
+        self.turn = pygame.image.load(
+            "Assets/bluesnake/Python Game Blue Turn.png").convert_alpha()
+
     def draw_snake(self, screen):
         """Draws the snake to the screen as a series of rectangles
 
