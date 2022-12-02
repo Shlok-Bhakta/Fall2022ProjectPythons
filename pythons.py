@@ -120,8 +120,10 @@ while True:
 
     # gives the scale surface a color (from global_values.py)
     scale_surface.fill(screen_color)
+
     # fills the (snake game) surface with a color (from global_values.py)
     game_surface.fill(board_color)
+
     # draws the snakes onto the game_surface
     snake_1.draw_elements(game_surface)
     snake_2.draw_elements(game_surface)

@@ -49,19 +49,79 @@ class SNAKE:
         self.turn = pygame.image.load(
             "Assets/bluesnake/Python Game Blue Turn.png").convert_alpha()
 
+        self.snake_head = self.head
+        self.snake_mid = self.mid
+        self.snake_tail = self.mid
+        self.snake_turn = self.turn
+
     def draw_snake(self, screen):
         """Draws the snake to the screen as a series of rectangles
 
         Args:
             screen (pygame.display): The main screen of the Game
         """
-        for block in self.body:
+        self.update_head_graphics()
+        self.update_tail_graphics()
+        for index, block in enumerate(self.body):
             # create a rectangle
             x_pos = int(block.x * CELL_SIZE)
             y_pos = int(block.y * CELL_SIZE)
-            snake_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
-            pygame.draw.rect(screen, self.color, snake_rect)
+            block_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
             # draw rectangle
+            if index == 0:
+                screen.blit(self.snake_head, block_rect)
+            elif index == len(self.body) - 1:
+                screen.blit(self.snake_tail, block_rect)
+            else:
+                previous_block = self.body[index+1]
+                next_block = self.body[index-1]
+                previous_vector = previous_block - block
+                next_vector = next_block - block
+                if previous_vector.x == next_vector.x:
+                    self.snake_mid = pygame.transform.rotate(self.mid, 90)
+                    screen.blit(self.snake_mid, block_rect)
+                elif previous_vector.y == next_vector.y:
+                    screen.blit(self.mid, block_rect)
+                else:
+                    if previous_vector.x == -1 and next_vector.y == -1 or previous_vector.y == -1 and next_vector.x == -1:
+                        self.snake_turn = pygame.transform.rotate(
+                            self.turn, 270)
+                        screen.blit(self.snake_turn, block_rect)
+                    elif previous_vector.x == -1 and next_vector.y == 1 or previous_vector.y == 1 and next_vector.x == -1:
+                        self.snake_turn = pygame.transform.rotate(
+                            self.turn, 0)
+                        screen.blit(self.snake_turn, block_rect)
+                    elif previous_vector.x == 1 and next_vector.y == -1 or previous_vector.y == -1 and next_vector.x == 1:
+                        self.snake_turn = pygame.transform.rotate(
+                            self.turn, 180)
+                        screen.blit(self.snake_turn, block_rect)
+                    elif previous_vector.x == 1 and next_vector.y == 1 or previous_vector.y == 1 and next_vector.x == 1:
+                        self.snake_turn = pygame.transform.rotate(
+                            self.turn, 90)
+                        screen.blit(self.snake_turn, block_rect)
+            #pygame.draw.rect(screen, self.color, block_rect)
+
+    def update_head_graphics(self):
+        head_orientation = self.body[1]-self.body[0]
+        if head_orientation == RIGHT_VECTOR:
+            self.snake_head = pygame.transform.rotate(self.head, 0)
+        elif head_orientation == LEFT_VECTOR:
+            self.snake_head = pygame.transform.rotate(self.head, 180)
+        elif head_orientation == UP_VECTOR:
+            self.snake_head = pygame.transform.rotate(self.head, 90)
+        elif head_orientation == DOWN_VECTOR:
+            self.snake_head = pygame.transform.rotate(self.head, 270)
+
+    def update_tail_graphics(self):
+        tail_orientation = self.body[-2]-self.body[-1]
+        if tail_orientation == RIGHT_VECTOR:
+            self.snake_tail = pygame.transform.rotate(self.tail, 180)
+        elif tail_orientation == LEFT_VECTOR:
+            self.snake_tail = pygame.transform.rotate(self.tail, 0)
+        elif tail_orientation == UP_VECTOR:
+            self.snake_tail = pygame.transform.rotate(self.tail, 270)
+        elif tail_orientation == DOWN_VECTOR:
+            self.snake_tail = pygame.transform.rotate(self.tail, 90)
 
     def move_snake(self):
         """Moves the snake in a vector direction
