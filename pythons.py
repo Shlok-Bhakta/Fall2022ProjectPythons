@@ -7,7 +7,7 @@
 # Only requirement for running the code is pygame
 # The version of pygame being developed with is "pygame 2.1.3.dev8 (SDL 2.0.22, Python 3.11.0)"
 import pygame
-
+import time
 from close_amount import *
 from draw_slow import *
 from draw_speed import *
@@ -81,10 +81,10 @@ def main(screen):
     wall = WALL()
 
     # Screen time timer
-    temptime = 2000
-    # temptime = random.randint(0, 10000) * random.randint(0, 10)
-    temptime2 = 2000
-    # temptime2 = random.randint(0, 10000) * random.randint(0, 10)
+    # temptime = 2000
+    temptime = random.randint(0, 5000) * random.randint(0, 50)
+    # temptime2 = 2000
+    temptime2 = random.randint(0, 5000) * random.randint(0, 50)
     pygame.time.set_timer(SCREEN_UPDATE, 60)
     pygame.time.set_timer(WALL_UPDATE, 3600)
     pygame.time.set_timer(SPEED_SPAWN, temptime)
@@ -104,6 +104,8 @@ def main(screen):
         "Assets/bluesnake/snake_head.png").convert_alpha()
     yellow_snake_icon = pygame.image.load(
         "Assets/yellowsnake/Python Game Yellow Head.png").convert_alpha()
+    game_title_icon = pygame.image.load(
+        "Assets/Title.png").convert_alpha()
     # Create the main game loop (all the calculations and stuff happen here)
     while True:
         # this rectangle is so we can set the game to be in the center of the screen
@@ -115,6 +117,7 @@ def main(screen):
             # debug line to see what events are happening
             # print(event)
             quit_game(event)
+
             # responsible for checking if the snake is colliding with itself or a wall or a fruit
             game_over, snake_id = snake_screen_update(event, [snake_1, snake_2],
                                                       fruits, speed_power, slow_power)
@@ -136,16 +139,19 @@ def main(screen):
                        left=pygame.K_a,
                        right=pygame.K_d)
         if game_over == True:
+
             print("game ended")
             return snake_id
+
         # gives the scale surface a color (from global_values.py)
         rect = game_surface.get_rect(
             center=(screen.get_width()/2, screen.get_height()/2))
-        score_blue_rect = game_surface.get_rect(topleft=(0, 100))
-        score_yellow_rect = game_surface.get_rect(
-            center=(0, 100))
-        scale_surface.fill(screen_color)
         sidebar_length = (screen.get_width() - border_surface.get_width())/2
+        scale_surface.fill(screen_color)
+        title_rect = game_title_icon.get_rect(
+            center=(sidebar_length/2, (screen.get_height()/30)))
+        scale_surface.blit(
+            game_title_icon, title_rect)
         scale_surface.blit(yellow_snake_icon, (sidebar_length/2-10,
                            (screen.get_height()/2 + screen.get_height()/3)-30))
         scale_surface.blit(blue_snake_icon, (sidebar_length + (border_surface.get_width() +
@@ -207,10 +213,11 @@ def main(screen):
 pygame.init()
 # Creates the main screen with the amount of cells and the size of them
 screen = pygame.display.set_mode(
-    (CELL_NUMBER * (CELL_SIZE+13), CELL_NUMBER * (CELL_SIZE+1)), pygame.RESIZABLE)
+    (CELL_NUMBER * (CELL_SIZE+16), CELL_NUMBER * (CELL_SIZE+1)), pygame.RESIZABLE)
 
 while True:
     result = main(screen)
+    time.sleep(0.5)
     if result == 0:
         score.set_blue_score(score.get_blue_score()+1)
     if result == 1:

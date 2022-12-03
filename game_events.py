@@ -68,8 +68,6 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
                             slow_power[i].randomize_slow_power(
                                 snake_pos, slow_pos)
 
-        for i in snake:
-            i.update()
         # Snake collision with other snakes
 
         for k in range(len(snake)):
@@ -83,6 +81,8 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
                 print("game over")
                 return collision_result, snake_id
 
+        for i in snake:
+            i.update()
     return False, -1
 
 

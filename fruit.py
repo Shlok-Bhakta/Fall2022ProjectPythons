@@ -22,6 +22,15 @@ class FRUIT:
         self.snake = []
         self.fruit = []
         self.apple_icon = pygame.image.load("Assets/apple.png").convert_alpha()
+        self.orange_icon = pygame.image.load(
+            "Assets/Python Game Orange.png").convert_alpha()
+        self.grapes_icon = pygame.image.load(
+            "Assets/Python Game Grapes.png").convert_alpha()
+        self.banana_icon = pygame.image.load(
+            "Assets/banana.png").convert_alpha()
+        self.icons = [self.apple_icon, self.orange_icon,
+                      self.grapes_icon, self.banana_icon]
+        self.fruit_num = random.randint(0, len(self.icons)-1)
 
     def draw_fruit(self, screen):
         """Draws the fruit to the screen as a rectangle
@@ -36,7 +45,7 @@ class FRUIT:
         fruit_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
         # draw the rectangle
         #pygame.draw.rect(screen, self.color, fruit_rect)
-        screen.blit(self.apple_icon, fruit_rect)
+        screen.blit(self.icons[self.fruit_num], fruit_rect)
 
     def randomize_fruit(self, snake_pos2, fruit_pos2):
         """places the fruit randomly and tries to avoid placing it inside the snake
@@ -48,6 +57,7 @@ class FRUIT:
         self.snake = snake_pos2
         self.fruit = fruit_pos2
         self.close_amount = close.get_close_amount()
+        self.fruit_num = random.randint(0, len(self.icons)-1)
         self.x = random.randint(self.close_amount,
                                 (CELL_NUMBER-self.close_amount)-1)
         self.y = random.randint(self.close_amount,
