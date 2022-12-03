@@ -6,7 +6,17 @@ from global_values import *
 
 
 class SNAKE:
-    def __init__(self, start_direction=RIGHT_VECTOR, initial_vector=[Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)], snake_col=snake_color, snake_name="snek"):
+    def __init__(self,
+                 snake_id,
+                 start_direction=RIGHT_VECTOR,
+                 initial_vector=[Vector2(5, 10), Vector2(
+                     4, 10), Vector2(3, 10)],
+                 snake_col=snake_color,
+                 snake_name="snek",
+                 head_path="Assets/bluesnake/snake_head.png",
+                 body_path="Assets/bluesnake/Python Game Blue Body.png",
+                 corner_path="Assets/bluesnake/Python Game Blue Turn.png",
+                 tail_path="Assets/bluesnake/Python Game Blue Tail.png"):
         """Creates a snake
 
         Args:
@@ -15,6 +25,7 @@ class SNAKE:
             snakecol (color, optional): The color of the snake squares. Defaults to snake_color.
             dn (str, optional): A name to help debug the snake. Defaults to "snek".
         """
+        self.ID = snake_id
         self.name = snake_name
         self.body = initial_vector
         self.direction = start_direction
@@ -38,16 +49,17 @@ class SNAKE:
         self.start_direction = self.previous_direction
         self.close_amount = close.get_close_amount()
         self.increment = 0
-
+        self.score = 0
+        self.actual_score = 0
         # Importing image assets
         self.head = pygame.image.load(
-            "Assets/bluesnake/snake_head.png").convert_alpha()
+            head_path).convert_alpha()
         self.mid = pygame.image.load(
-            "Assets/bluesnake/Python Game Blue Body.png").convert_alpha()
+            body_path).convert_alpha()
         self.tail = pygame.image.load(
-            "Assets/bluesnake/Python Game Blue Tail.png").convert_alpha()
+            tail_path).convert_alpha()
         self.turn = pygame.image.load(
-            "Assets/bluesnake/Python Game Blue Turn.png").convert_alpha()
+            corner_path).convert_alpha()
 
         self.snake_head = self.head
         self.snake_mid = self.mid
@@ -163,19 +175,22 @@ class SNAKE:
         """
         # check if colliding with the walls (cheating by using the dimensions of the board))
         if not self.close_amount <= self.body[0].x < CELL_NUMBER-self.close_amount:
-            self.game_over()
+            return self.game_over()
         if not self.close_amount <= self.body[0].y < CELL_NUMBER-self.close_amount:
-            self.game_over()
+            return self.game_over()
         # check if colliding with itself
         for block in self.body[1:]:
             if self.body[0] == block:
-                self.game_over()
+                return self.game_over()
         # check collision with other snakes' bodies
         for block in other_snakes[1:]:
             if self.body[0] == block:
-                print(f"{self.name}: other snake collision detected")
+                #print(f"{self.name}: other snake collision detected")
+                return self.game_over()
         if self.body[0] == other_snakes[0]:
-            print(f"{self.name}: head collision detected")
+            #print(f"{self.name}: head collision detected")
+            return self.game_over()
+        return False, -1
         #print("collision checked")
 
     def correct_movement(self):
@@ -191,13 +206,15 @@ class SNAKE:
     def game_over(self):
         """does an action on game_over
         """
-        print("Game Over")
+        #print("Game Over")
+        #print(f"{self.name}: {abs(self.score)}")
+        return True, self.ID
 
-    def update(self, other_snake):
+    def update(self):
         """updates the snake's collision checking
         """
         self.close_amount = close.get_close_amount()
-        self.check_snake_collision(other_snake)
+        # self.check_snake_collision(snakes)
         self.move_snake()
         # print(f"{self.name} update snek")
 

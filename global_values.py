@@ -1,10 +1,12 @@
 import pygame
 from pygame.math import Vector2
 from close_amount import *
+from total_score import *
 # size and number of cells
 CELL_NUMBER = 29
 CELL_SIZE = 32
-
+# Thickness of the border around the game
+BORDER_THICKNESS = 10
 # screen update event
 SCREEN_UPDATE = pygame.USEREVENT
 WALL_UPDATE = pygame.USEREVENT + 1
@@ -16,8 +18,6 @@ DOWN_VALUE = 2
 LEFT_VALUE = 3
 RIGHT_VALUE = 4
 
-# an array of all the wall positions
-walls = []
 # how closed the wall should be.
 # Try changing this to something bigger than 0
 # and run pythons.py and see what happens ;)
@@ -25,9 +25,16 @@ walls = []
 close = CLOSE_AMOUNT(initial_amount=0)
 wall_cutoff = 7
 
+# creates a score
+score = TOTAL_SCORE(0, 0)
+
+# font
+
+
 # The colors of the game
-screen_color = (10, 200, 70)
+screen_color = (180, 215, 70)
 board_color = (175, 215, 70)
+grass_color = (167, 209, 61)
 fruit_color = (126, 166, 140)
 snake_color = (100, 10, 10)
 python_blue_color = (56, 110, 157)
@@ -35,7 +42,8 @@ python_yellow_color = (254, 216, 71)
 wall_color = (10, 200, 10)
 speed_color = (245, 0, 253)
 slow_color = (0, 255, 255)
-
+border_color = (0, 0, 0)
+text_color = (0, 0, 0)
 # an attempt to fix the snake clipping
 right = False
 left = False

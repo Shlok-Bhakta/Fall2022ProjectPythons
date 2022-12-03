@@ -42,8 +42,8 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
 
         for i in slow_power:
             slow_pos.append(i.get_slow_power_positions())
-        #print(f"speed Positions {speed_pos}")
-        #print(f"slow Positions {slow_pos}")
+        # print(f"speed Positions {speed_pos}")
+        # print(f"slow Positions {slow_pos}")
         # print("\n###########################################################")
         # Snake collision with fruit
         for i in range(len(fruit_pos)):
@@ -68,13 +68,22 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
                             slow_power[i].randomize_slow_power(
                                 snake_pos, slow_pos)
 
+        for i in snake:
+            i.update()
         # Snake collision with other snakes
-        for i in range(len(snake)):
+
+        for k in range(len(snake)):
             other_bodies = []
             for j in range(len(snake)):
-                if not (i == j):
+                if k != j:
                     other_bodies += snake[j].get_snake_positions()
-            snake[i].update(other_bodies)
+            collision_result, snake_id = snake[k].check_snake_collision(
+                other_bodies)
+            if collision_result == True:
+                print("game over")
+                return collision_result, snake_id
+
+    return False, -1
 
 
 def arrow_move(event, snake, up=pygame.K_UP, down=pygame.K_DOWN, left=pygame.K_LEFT, right=pygame.K_RIGHT):

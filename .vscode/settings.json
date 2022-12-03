@@ -1,6 +1,7 @@
 {
   "python.analysis.typeCheckingMode": "basic",
   "cSpell.words": [
+    "barbwall",
     "blit",
     "blits",
     "bluesnake",
@@ -16,7 +17,9 @@
     "startvector",
     "temptime",
     "timeslow",
+    "topleft",
     "USEREVENT",
-    "VIDEORESIZE"
+    "VIDEORESIZE",
+    "yellowsnake"
   ]
 }

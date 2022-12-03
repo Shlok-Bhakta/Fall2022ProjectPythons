@@ -13,6 +13,12 @@ class WALL:
         self.wall_increment = 0
         self.close_amount = close.get_close_amount()
         self.make_wall()
+        self.wall_sprites = [pygame.image.load("Assets/barbwall1.png").convert_alpha(),
+                             pygame.image.load("Assets/barbwall2.png").convert_alpha()]
+        self.cycle = 0
+        self.cycle_used = 0
+        self.cycle_speed = 100
+        self.walls = []
 
     def draw_wall(self, screen):
         """draws the wall as a series of rectangles
@@ -20,28 +26,36 @@ class WALL:
         Args:
             screen (_type_): the screen/surface to draw to
         """
-        for block in walls:
+        self.cycle_used += 1
+        if self.cycle_used <= self.cycle_speed:
+            self.cycle = 0
+        elif self.cycle_speed <= self.cycle_used <= self.cycle_speed * 2:
+            self.cycle = 1
+        elif self.cycle_used >= self.cycle_speed * 2:
+            self.cycle_used = 0
+        for block in self.walls:
             # create a rectangle
             x_pos = int(block.x * CELL_SIZE)
             y_pos = int(block.y * CELL_SIZE)
             wall_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
-            pygame.draw.rect(screen, wall_color, wall_rect)
+            #pygame.draw.rect(screen, wall_color, wall_rect)
+            screen.blit(self.wall_sprites[self.cycle], wall_rect)
 
     def make_wall(self):
         """makes the array positions of the walls to draw
         """
-        global walls
         self.wall_increment += 1
         for j in range(1, self.close_amount+1):
             for i in range(CELL_NUMBER+1):
-                walls.append(
+                self.walls.append(
                     Vector2(self.close_amount-j, (CELL_NUMBER-i)))
-                walls.append(
+                self.walls.append(
                     Vector2(CELL_NUMBER-self.close_amount-1+j, (CELL_NUMBER-i)))
-                walls.append(Vector2((CELL_NUMBER-i), self.close_amount-j))
-                walls.append(
+                self.walls.append(
+                    Vector2((CELL_NUMBER-i), self.close_amount-j))
+                self.walls.append(
                     Vector2((CELL_NUMBER-i), CELL_NUMBER-self.close_amount-1+j))
-        # print(len(walls))
+        # print(len(self.walls))
 
     def update(self, screen):
         self.draw_wall(screen)
