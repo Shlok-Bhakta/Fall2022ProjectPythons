@@ -99,7 +99,7 @@ class FRUIT:
 
     def out_fruit(self):
         global CELL_NUMBER
-        self.close_amount = close.get_close_amount()-1
+        self.close_amount = close.get_close_amount()
         # print("outfruit")
         if not self.close_amount <= self.pos.x < CELL_NUMBER-self.close_amount:
             self.randomize_fruit(self.snake, self.fruit)
