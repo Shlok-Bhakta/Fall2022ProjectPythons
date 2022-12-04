@@ -25,8 +25,14 @@ from wall import *
 
 # initialise the pygame library so it is ready to start drawing the game
 
+# rewards
+rewardb = 0
+rewardy = 0
+
 
 def main(screen):
+    actionb = 0
+    actiony = 0
     close.set_close_amount(0)
     # pygame.init()
     # creates a surface to handle scaling
@@ -122,6 +128,12 @@ def main(screen):
             # responsible for checking if the snake is colliding with itself or a wall or a fruit
             game_over, snake_id = snake_screen_update(event, [snake_1, snake_2],
                                                       fruits, speed_power, slow_power)
+            if game_over == True:
+                if snake_id == 0:
+                    rewards.set_blue_reward(-10)
+                if snake_id == 1:
+                    rewards.set_yellow_reward(-15)
+
             # updates the wall size variable
             wall_update(event, wall)
             # sets the flag to show the speed power up
@@ -131,18 +143,19 @@ def main(screen):
             if (len(slow_power) < max_slow):
                 slow_power += spawn_slow_power(event)
             # moves snake_1 with the arrow keys (blue snek)
+            #arrow_move(event, snake_1, actionb)
             arrow_move(event, snake_1)
             # print(snake_1.get_snake_moved())
             # moves snake_2 with the W/A/S/D keys
+            #arrow_move(event, snake_2, actiony)
             arrow_move(event, snake_2,
                        up=pygame.K_w,
                        down=pygame.K_s,
                        left=pygame.K_a,
                        right=pygame.K_d)
         if game_over == True:
-
             print("game ended")
-            return snake_id
+            return snake_id  # , rewards.get_blue_reward(), rewards.get_yellow_reward
 
         # gives the scale surface a color (from global_values.py)
         rect = game_surface.get_rect(
@@ -215,13 +228,19 @@ pygame.init()
 # Creates the main screen with the amount of cells and the size of them
 screen = pygame.display.set_mode(
     (CELL_NUMBER * (CELL_SIZE+16), CELL_NUMBER * (CELL_SIZE+1)), pygame.RESIZABLE)
+# reset
+# Iterations
+iteration = 1
 
 while True:
     result = main(screen)
+    # reset the rewards
     time.sleep(0.5)
     if result == 0:
         score.set_blue_score(score.get_blue_score()+1)
     if result == 1:
         score.set_yellow_score(score.get_yellow_score()+1)
+    iteration += 1
+    print(f"iterations {iteration}")
     print(f"yellow: {score.get_blue_score()}")
     print(f"blue: {score.get_yellow_score()}")

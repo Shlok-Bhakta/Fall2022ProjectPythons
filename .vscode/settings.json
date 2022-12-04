@@ -1,6 +1,10 @@
 {
   "python.analysis.typeCheckingMode": "basic",
   "cSpell.words": [
+    "actionb",
+    "actiony",
+    "amountb",
+    "amounty",
     "barbwall",
     "blit",
     "blits",
@@ -12,6 +16,8 @@
     "outpower",
     "Powerup",
     "powerups",
+    "rewardb",
+    "rewardy",
     "snakecol",
     "Snek",
     "startvector",

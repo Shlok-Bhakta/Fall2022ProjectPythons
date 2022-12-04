@@ -2,6 +2,7 @@ import pygame
 from pygame.math import Vector2
 from close_amount import *
 from total_score import *
+from rewards import *
 # size and number of cells
 CELL_NUMBER = 29
 CELL_SIZE = 32
@@ -28,8 +29,8 @@ wall_cutoff = 7
 # creates a score
 score = TOTAL_SCORE(0, 0)
 
-# font
-
+# creates a rewards
+rewards = REWARDS(0, 0)
 
 # The colors of the game
 screen_color = (180, 215, 70)

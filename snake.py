@@ -25,6 +25,7 @@ class SNAKE:
             snakecol (color, optional): The color of the snake squares. Defaults to snake_color.
             dn (str, optional): A name to help debug the snake. Defaults to "snek".
         """
+
         self.ID = snake_id
         self.name = snake_name
         self.body = initial_vector
@@ -175,20 +176,40 @@ class SNAKE:
         """
         # check if colliding with the walls (cheating by using the dimensions of the board))
         if not self.close_amount <= self.body[0].x < CELL_NUMBER-self.close_amount:
+            if self.ID == 0:
+                rewards.set_blue_reward(-12)
+            if self.ID == 1:
+                rewards.set_yellow_reward(-12)
             return self.game_over()
+
         if not self.close_amount <= self.body[0].y < CELL_NUMBER-self.close_amount:
+            if self.ID == 0:
+                rewards.set_blue_reward(-12)
+            if self.ID == 1:
+                rewards.set_yellow_reward(-12)
             return self.game_over()
         # check if colliding with itself
         for block in self.body[1:]:
             if self.body[0] == block:
+                if self.ID == 0:
+                    rewards.set_blue_reward(-20)
+                if self.ID == 1:
+                    rewards.set_yellow_reward(-20)
                 return self.game_over()
         # check collision with other snakes' bodies
         for block in other_snakes[1:]:
             if self.body[0] == block:
+                if self.ID == 0:
+                    rewards.set_blue_reward(-10)
+                if self.ID == 1:
+                    rewards.set_yellow_reward(-15)
                 #print(f"{self.name}: other snake collision detected")
                 return self.game_over()
         if self.body[0] == other_snakes[0]:
-            #print(f"{self.name}: head collision detected")
+            if self.ID == 0:
+                rewards.set_blue_reward(-10)
+            if self.ID == 1:
+                rewards.set_yellow_reward(-15)
             return self.game_over()
         return False, -1
         #print("collision checked")
