@@ -1,4 +1,4 @@
-from enum import unique
+
 import pygame
 from pygame.math import Vector2
 from global_values import *
@@ -26,6 +26,7 @@ class WALL:
         Args:
             screen (_type_): the screen/surface to draw to
         """
+        self.close_amount = close.get_close_amount()
         self.cycle_used += 1
         if self.cycle_used <= self.cycle_speed:
             self.cycle = 0
@@ -44,6 +45,7 @@ class WALL:
     def make_wall(self):
         """makes the array positions of the walls to draw
         """
+        self.close_amount = close.get_close_amount()
         self.wall_increment += 1
         for j in range(1, self.close_amount+1):
             for i in range(CELL_NUMBER+1):
