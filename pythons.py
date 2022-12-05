@@ -8,7 +8,6 @@
 # The version of pygame being developed with is "pygame 2.1.3.dev8 (SDL 2.0.22, Python 3.11.0)"
 import pygame
 import time
-import torch
 from close_amount import *
 from draw_slow import *
 from draw_speed import *
