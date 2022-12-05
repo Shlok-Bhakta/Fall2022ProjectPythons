@@ -1,3 +1,16 @@
+# By submitting this assignment, I agree to the following:
+#   "Aggies do not lie, cheat, or steal, or tolerate those who do."
+#   "I have not given or received any unauthorized aid on this assignment."
+#
+# Names:        Shlok Bhakta
+#               Landry Massenburg
+#               Cole Calvery
+#               Shawn Mohseni
+# Section:      ENGR-102:416,516
+# Assignment:   main.py
+# Date:         05 12 2022 (DD MM YYYY)
+#
+
 # https://youtu.be/QFvqStqPCRU main youtube tutorial, most of the logic for the game comes from here
 # This is not a copy paste of his work.
 # There has been so many alterations to accommodate 2 players and more than 1 fruit
@@ -6,6 +19,7 @@
 
 # Only requirement for running the code is pygame
 # The version of pygame being developed with is "pygame 2.1.3.dev8 (SDL 2.0.22, Python 3.11.0)"
+
 import pygame
 import time
 from close_amount import *
