@@ -178,6 +178,7 @@ class SNAKE:
         """
         # check if colliding with the walls (cheating by using the dimensions of the board))
         if not self.close_amount <= self.body[0].x < CELL_NUMBER-self.close_amount:
+            pygame.mixer.Sound(die_sfx_path).play
             return self.game_over()
         if not self.close_amount <= self.body[0].y < CELL_NUMBER-self.close_amount:
             return self.game_over()

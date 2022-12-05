@@ -52,6 +52,9 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
                 if fruit_pos[i] == snake_pos[j][0]:
                     snake[j].add_block()
                     fruit[i].randomize_fruit(snake_pos, fruit_pos)
+                    apple_eat_sound = pygame.mixer.Sound(
+                        apple_eat_sfx_path)
+                    apple_eat_sound.play()
 
         # Snake collision with Speed Powerup
         for i in range(len(speed_pos)):
@@ -59,6 +62,7 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
                 if speed_pos[i] == snake_pos[j][0]:
                     snake[j].boost()
                     speed_power[i].randomize_speed_power(snake_pos, speed_pos)
+                    pygame.mixer.Sound(powerup_sound).play()
         # Snake collision with Slow Powerup
         for i in range(len(slow_pos)):
             for j in range(len(snake)):
@@ -68,6 +72,7 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
                             snake[k].slow()
                             slow_power[i].randomize_slow_power(
                                 snake_pos, slow_pos)
+                            pygame.mixer.Sound(powerup_sound).play()
 
         # Snake collision with other snakes
 
@@ -79,6 +84,7 @@ def snake_screen_update(event, snake=[], fruit=[], speed_power=[], slow_power=[]
             collision_result, snake_id = snake[k].check_snake_collision(
                 other_bodies)
             if collision_result == True:
+
                 print("game over")
                 return collision_result, snake_id
 
@@ -229,6 +235,7 @@ def window_resize(event, screen):
 def wall_update(event, wall):
     if event.type == WALL_UPDATE:
         if not (close.get_close_amount() > wall_cutoff):
+            pygame.mixer.Sound(closing_sound).play()
             close_amount = close.get_close_amount() + 1
             close.set_close_amount(close_amount)
             # print(f"close_amount: {close.get_close_amount()}")

@@ -91,7 +91,7 @@ class SPEED_POWER:
 
     def out_speed_power(self):
         global CELL_NUMBER
-        self.close_amount = close.get_close_amount()-1
+        self.close_amount = close.get_close_amount()
         # print("outpower")
         if not self.close_amount <= self.pos.x < CELL_NUMBER-self.close_amount:
             self.randomize_speed_power(self.snake, self.speed_power)

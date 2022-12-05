@@ -155,7 +155,7 @@ def main(screen, ):
                        left=pygame.K_a,
                        right=pygame.K_d)
         if game_over == True:
-
+            pygame.mixer.Sound(die_sfx_path).play()
             print("game ended")
             return snake_id
 
@@ -180,17 +180,17 @@ def main(screen, ):
         scale_surface.blit(p2_controls, cont2_rect)
         # one player control button
         action1 = player_1.draw(scale_surface, sidebar_length/2,
-                                (screen.get_height()/2 + screen.get_height()/3)-100)
+                                (screen.get_height()/2))
         if action1 == True:
             p2.set_2p(False)
-            print("ai active")
+            pygame.mixer.Sound(change_sfx_path).play()
             return -1
         # 2 player control button
         action2 = player_2.draw(scale_surface, sidebar_length + (border_surface.get_width() + (sidebar_length/2)-10),
-                                (screen.get_height()/2 + screen.get_height()/3)-100)
+                                (screen.get_height()/2))
         if action2 == True:
             p2.set_2p(True)
-            print("ai deavtive")
+            pygame.mixer.Sound(change_sfx_path).play()
             return -1
 
         # snake score icons

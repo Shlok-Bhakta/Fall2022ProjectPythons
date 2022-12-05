@@ -65,4 +65,9 @@ slow_pos = []
 max_speed = 1
 max_slow = 1
 
-# images
+# audio
+apple_eat_sfx_path = "Assets/audio/apple.wav"
+die_sfx_path = "Assets/audio/die.wav"
+change_sfx_path = "Assets/audio/mode_change.wav"
+powerup_sound = "Assets/audio/powerup.wav"
+closing_sound = "Assets/audio/close.wav"

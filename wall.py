@@ -2,7 +2,7 @@
 import pygame
 from pygame.math import Vector2
 from global_values import *
-
+import random
 # Welcome to the wall class where most of the wall's logic is located
 
 
@@ -13,8 +13,13 @@ class WALL:
         self.wall_increment = 0
         self.close_amount = close.get_close_amount()
         self.make_wall()
-        self.wall_sprites = [pygame.image.load("Assets/barbwall1.png").convert_alpha(),
-                             pygame.image.load("Assets/barbwall2.png").convert_alpha()]
+        sprite = random.randint(0, 1)
+        if sprite == 0:
+            self.wall_sprites = [pygame.image.load("Assets/fire1.png").convert_alpha(),
+                                 pygame.image.load("Assets/fire2.png").convert_alpha()]
+        if sprite == 1:
+            self.wall_sprites = [pygame.image.load("Assets/barbwall1.png").convert_alpha(),
+                                 pygame.image.load("Assets/barbwall2.png").convert_alpha()]
         self.cycle = 0
         self.cycle_used = 0
         self.cycle_speed = 100
