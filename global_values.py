@@ -2,6 +2,7 @@ import pygame
 from pygame.math import Vector2
 from close_amount import *
 from total_score import *
+from is2p import *
 # size and number of cells
 CELL_NUMBER = 29
 CELL_SIZE = 32
@@ -28,8 +29,8 @@ wall_cutoff = 7
 # creates a score
 score = TOTAL_SCORE(0, 0)
 
-# font
-
+# creates a 2player flag
+p2 = IS2P(True)
 
 # The colors of the game
 screen_color = (180, 215, 70)
@@ -64,4 +65,9 @@ slow_pos = []
 max_speed = 1
 max_slow = 1
 
-# images
+# audio
+apple_eat_sfx_path = "Assets/audio/apple.wav"
+die_sfx_path = "Assets/audio/die.wav"
+change_sfx_path = "Assets/audio/mode_change.wav"
+powerup_sound = "Assets/audio/powerup.wav"
+closing_sound = "Assets/audio/close.wav"
