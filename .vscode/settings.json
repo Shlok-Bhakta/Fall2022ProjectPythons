@@ -5,8 +5,11 @@
     "blit",
     "blits",
     "bluesnake",
+    "collidepoint",
+    "controlls",
     "direc",
     "fruitcol",
+    "headx",
     "KEYDOWN",
     "keypresses",
     "outpower",
@@ -15,11 +18,13 @@
     "snakecol",
     "Snek",
     "startvector",
+    "targetx",
     "temptime",
     "timeslow",
     "topleft",
     "USEREVENT",
     "VIDEORESIZE",
+    "wasd",
     "yellowsnake"
   ]
 }

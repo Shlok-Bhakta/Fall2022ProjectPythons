@@ -18,6 +18,7 @@ from slow_down import *
 from snake import *
 from speed_up import *
 from wall import *
+from button import *
 
 # WATCH THIS to 30:00 or you will be clueless
 # https://youtu.be/QFvqStqPCRU?t=226
@@ -25,7 +26,7 @@ from wall import *
 # initialise the pygame library so it is ready to start drawing the game
 
 
-def main(screen):
+def main(screen, ):
     close.set_close_amount(0)
     # pygame.init()
     # creates a surface to handle scaling
@@ -42,7 +43,7 @@ def main(screen):
     # Creates an array of fruit
     fruits = []
     for i in range(2):
-        fruits.append(FRUIT())
+        fruits.append(FRUIT(id=i))
 
     # speed_power = []
     # for i in range(1):
@@ -63,12 +64,14 @@ def main(screen):
                     snake_name="Blue")
     snake_2 = SNAKE(1,
                     start_direction=LEFT_VECTOR,
+                    previous_direction=LEFT_VALUE,
                     initial_vector=[Vector2(int(CELL_NUMBER/2-4),
                                             int(CELL_NUMBER/2)),
                                     Vector2(int(CELL_NUMBER/2-3),
                                             int(CELL_NUMBER/2)),
                                     Vector2(int(CELL_NUMBER/2-2),
                                             int(CELL_NUMBER/2))],
+                    is_ai=(not p2.get_2p()),
                     snake_col=python_yellow_color,
                     snake_name="Yellow",
                     head_path="Assets/yellowsnake/Python Game Yellow Head.png",
@@ -86,7 +89,7 @@ def main(screen):
     # temptime2 = 2000
     temptime2 = random.randint(0, 5000) * random.randint(0, 50)
     pygame.time.set_timer(SCREEN_UPDATE, 60)
-    pygame.time.set_timer(WALL_UPDATE, 3600)
+    pygame.time.set_timer(WALL_UPDATE, 4500)
     pygame.time.set_timer(SPEED_SPAWN, temptime)
     pygame.time.set_timer(SLOW_SPAWN, temptime2)
     # draw_speed = DRAW_SPEED(False)
@@ -106,12 +109,24 @@ def main(screen):
         "Assets/yellowsnake/Python Game Yellow Head.png").convert_alpha()
     game_title_icon = pygame.image.load(
         "Assets/Title.png").convert_alpha()
+
+    p1_controls = pygame.image.load(
+        "Assets/controllsYellow.png").convert_alpha()
+    p2_controls = pygame.image.load(
+        "Assets/controllsBlue.png").convert_alpha()
+    scale_amount_controlls = 1.5
+    p1_controls = pygame.transform.scale(
+        p1_controls, (int(p1_controls.get_width() * scale_amount_controlls), int(p1_controls.get_height() * scale_amount_controlls)))
+    p2_controls = pygame.transform.scale(
+        p2_controls, (int(p2_controls.get_width() * scale_amount_controlls), int(p2_controls.get_height() * scale_amount_controlls)))
+    player_1 = BUTTON(pygame.image.load(
+        "Assets/1player.png").convert_alpha(), 2, False)
+    player_2 = BUTTON(pygame.image.load(
+        "Assets/2player.png").convert_alpha(), 2, True)
     # Create the main game loop (all the calculations and stuff happen here)
     while True:
         # this rectangle is so we can set the game to be in the center of the screen
 
-        # FIXME snake clips through itself if you press down and right at the same time or up and left
-        # hours wasted = 5
         # the event loop, captures stuff like keypresses and mouse movement
         for event in pygame.event.get():
             # debug line to see what events are happening
@@ -130,16 +145,18 @@ def main(screen):
             if (len(slow_power) < max_slow):
                 slow_power += spawn_slow_power(event)
             # moves snake_1 with the arrow keys (blue snek)
-            arrow_move(event, snake_1)
+            arrow_move(event, snake_1, fruits)
             # print(snake_1.get_snake_moved())
             # moves snake_2 with the W/A/S/D keys
-            arrow_move(event, snake_2,
+            arrow_move(event,
+                       snake_2,
+                       fruits,
                        up=pygame.K_w,
                        down=pygame.K_s,
                        left=pygame.K_a,
                        right=pygame.K_d)
         if game_over == True:
-
+            pygame.mixer.Sound(die_sfx_path).play()
             print("game ended")
             return snake_id
 
@@ -148,14 +165,42 @@ def main(screen):
             center=(screen.get_width()/2, screen.get_height()/2))
         sidebar_length = (screen.get_width() - border_surface.get_width())/2
         scale_surface.fill(screen_color)
+        # pythons title image
         title_rect = game_title_icon.get_rect(
             center=(sidebar_length/2, (screen.get_height()/30)))
         scale_surface.blit(
             game_title_icon, title_rect)
+        # wasd controlls
+        if p2.get_2p() == True:
+            cont1_rect = p1_controls.get_rect(
+                center=(sidebar_length/2, (screen.get_height()/30+80)))
+            scale_surface.blit(p1_controls, cont1_rect)
+        # arrow controlls
+        cont2_rect = p2_controls.get_rect(
+            center=(sidebar_length + (border_surface.get_width() +
+                                      (sidebar_length/2)-10), (screen.get_height()/30+80)))
+        scale_surface.blit(p2_controls, cont2_rect)
+        # one player control button
+        action1 = player_1.draw(scale_surface, sidebar_length/2,
+                                (screen.get_height()/2))
+        if action1 == True:
+            p2.set_2p(False)
+            pygame.mixer.Sound(change_sfx_path).play()
+            return -1
+        # 2 player control button
+        action2 = player_2.draw(scale_surface, sidebar_length + (border_surface.get_width() + (sidebar_length/2)-10),
+                                (screen.get_height()/2))
+        if action2 == True:
+            p2.set_2p(True)
+            pygame.mixer.Sound(change_sfx_path).play()
+            return -1
+
+        # snake score icons
         scale_surface.blit(yellow_snake_icon, (sidebar_length/2-10,
                            (screen.get_height()/2 + screen.get_height()/3)-30))
         scale_surface.blit(blue_snake_icon, (sidebar_length + (border_surface.get_width() +
                            (sidebar_length/2)-10), (screen.get_height()/2 + screen.get_height()/3)-30))
+        # snake score numbers
         scale_surface.blit(
             blue_snake_text, (sidebar_length/2, screen.get_height()/2 + screen.get_height()/3))
         scale_surface.blit(yellow_snake_text, (sidebar_length + border_surface.get_width() +
@@ -214,7 +259,9 @@ pygame.init()
 # Creates the main screen with the amount of cells and the size of them
 screen = pygame.display.set_mode(
     (CELL_NUMBER * (CELL_SIZE+16), CELL_NUMBER * (CELL_SIZE+1)), pygame.RESIZABLE)
-
+pygame.display.set_caption("Pythons")
+pygame.display.set_icon(pygame.image.load(
+    "Assets/ICON.png").convert_alpha())
 while True:
     result = main(screen)
     time.sleep(0.5)

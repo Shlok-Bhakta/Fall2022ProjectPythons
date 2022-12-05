@@ -8,7 +8,7 @@ from game_events import *
 
 
 class FRUIT:
-    def __init__(self, color=fruit_color):
+    def __init__(self, id=0, color=fruit_color):
         """Runs on Create of the FRUIT object
         """
         # Get an x and y position that doesn't have a snake in it
@@ -21,6 +21,7 @@ class FRUIT:
         self.color = color
         self.snake = []
         self.fruit = []
+        self.id = id
         self.apple_icon = pygame.image.load("Assets/apple.png").convert_alpha()
         self.orange_icon = pygame.image.load(
             "Assets/Python Game Orange.png").convert_alpha()
@@ -100,7 +101,6 @@ class FRUIT:
     def out_fruit(self):
         global CELL_NUMBER
         self.close_amount = close.get_close_amount()
-        # print("outfruit")
         if not self.close_amount <= self.pos.x < CELL_NUMBER-self.close_amount:
             self.randomize_fruit(self.snake, self.fruit)
         if not self.close_amount <= self.pos.y < CELL_NUMBER-self.close_amount:
