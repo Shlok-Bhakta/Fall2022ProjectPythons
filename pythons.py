@@ -109,6 +109,7 @@ def main(screen, ):
         "Assets/yellowsnake/Python Game Yellow Head.png").convert_alpha()
     game_title_icon = pygame.image.load(
         "Assets/Title.png").convert_alpha()
+
     p1_controls = pygame.image.load(
         "Assets/controllsYellow.png").convert_alpha()
     p2_controls = pygame.image.load(
@@ -170,9 +171,10 @@ def main(screen, ):
         scale_surface.blit(
             game_title_icon, title_rect)
         # wasd controlls
-        cont1_rect = p1_controls.get_rect(
-            center=(sidebar_length/2, (screen.get_height()/30+80)))
-        scale_surface.blit(p1_controls, cont1_rect)
+        if p2.get_2p() == True:
+            cont1_rect = p1_controls.get_rect(
+                center=(sidebar_length/2, (screen.get_height()/30+80)))
+            scale_surface.blit(p1_controls, cont1_rect)
         # arrow controlls
         cont2_rect = p2_controls.get_rect(
             center=(sidebar_length + (border_surface.get_width() +
