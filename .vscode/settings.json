@@ -5,6 +5,8 @@
     "blit",
     "blits",
     "bluesnake",
+    "collidepoint",
+    "controlls",
     "direc",
     "fruitcol",
     "headx",
@@ -22,6 +24,7 @@
     "topleft",
     "USEREVENT",
     "VIDEORESIZE",
+    "wasd",
     "yellowsnake"
   ]
 }

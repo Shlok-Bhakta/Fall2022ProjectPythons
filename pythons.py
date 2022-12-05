@@ -18,6 +18,7 @@ from slow_down import *
 from snake import *
 from speed_up import *
 from wall import *
+from button import *
 
 # WATCH THIS to 30:00 or you will be clueless
 # https://youtu.be/QFvqStqPCRU?t=226
@@ -25,7 +26,7 @@ from wall import *
 # initialise the pygame library so it is ready to start drawing the game
 
 
-def main(screen):
+def main(screen, ):
     close.set_close_amount(0)
     # pygame.init()
     # creates a surface to handle scaling
@@ -70,7 +71,7 @@ def main(screen):
                                             int(CELL_NUMBER/2)),
                                     Vector2(int(CELL_NUMBER/2-2),
                                             int(CELL_NUMBER/2))],
-                    is_ai=True,
+                    is_ai=(not p2.get_2p()),
                     snake_col=python_yellow_color,
                     snake_name="Yellow",
                     head_path="Assets/yellowsnake/Python Game Yellow Head.png",
@@ -108,6 +109,19 @@ def main(screen):
         "Assets/yellowsnake/Python Game Yellow Head.png").convert_alpha()
     game_title_icon = pygame.image.load(
         "Assets/Title.png").convert_alpha()
+    p1_controls = pygame.image.load(
+        "Assets/controllsYellow.png").convert_alpha()
+    p2_controls = pygame.image.load(
+        "Assets/controllsBlue.png").convert_alpha()
+    scale_amount_controlls = 1.5
+    p1_controls = pygame.transform.scale(
+        p1_controls, (int(p1_controls.get_width() * scale_amount_controlls), int(p1_controls.get_height() * scale_amount_controlls)))
+    p2_controls = pygame.transform.scale(
+        p2_controls, (int(p2_controls.get_width() * scale_amount_controlls), int(p2_controls.get_height() * scale_amount_controlls)))
+    player_1 = BUTTON(pygame.image.load(
+        "Assets/1player.png").convert_alpha(), 2, False)
+    player_2 = BUTTON(pygame.image.load(
+        "Assets/2player.png").convert_alpha(), 2, True)
     # Create the main game loop (all the calculations and stuff happen here)
     while True:
         # this rectangle is so we can set the game to be in the center of the screen
@@ -150,14 +164,41 @@ def main(screen):
             center=(screen.get_width()/2, screen.get_height()/2))
         sidebar_length = (screen.get_width() - border_surface.get_width())/2
         scale_surface.fill(screen_color)
+        # pythons title image
         title_rect = game_title_icon.get_rect(
             center=(sidebar_length/2, (screen.get_height()/30)))
         scale_surface.blit(
             game_title_icon, title_rect)
+        # wasd controlls
+        cont1_rect = p1_controls.get_rect(
+            center=(sidebar_length/2, (screen.get_height()/30+80)))
+        scale_surface.blit(p1_controls, cont1_rect)
+        # arrow controlls
+        cont2_rect = p2_controls.get_rect(
+            center=(sidebar_length + (border_surface.get_width() +
+                                      (sidebar_length/2)-10), (screen.get_height()/30+80)))
+        scale_surface.blit(p2_controls, cont2_rect)
+        # one player control button
+        action1 = player_1.draw(scale_surface, sidebar_length/2,
+                                (screen.get_height()/2 + screen.get_height()/3)-100)
+        if action1 == True:
+            p2.set_2p(False)
+            print("ai active")
+            return -1
+        # 2 player control button
+        action2 = player_2.draw(scale_surface, sidebar_length + (border_surface.get_width() + (sidebar_length/2)-10),
+                                (screen.get_height()/2 + screen.get_height()/3)-100)
+        if action2 == True:
+            p2.set_2p(True)
+            print("ai deavtive")
+            return -1
+
+        # snake score icons
         scale_surface.blit(yellow_snake_icon, (sidebar_length/2-10,
                            (screen.get_height()/2 + screen.get_height()/3)-30))
         scale_surface.blit(blue_snake_icon, (sidebar_length + (border_surface.get_width() +
                            (sidebar_length/2)-10), (screen.get_height()/2 + screen.get_height()/3)-30))
+        # snake score numbers
         scale_surface.blit(
             blue_snake_text, (sidebar_length/2, screen.get_height()/2 + screen.get_height()/3))
         scale_surface.blit(yellow_snake_text, (sidebar_length + border_surface.get_width() +
