@@ -1,14 +1,16 @@
 import pygame
 from pygame.math import Vector2
 from global_values import *
-
+import random
 # Welcome to the snake class where most of the snake logic is located
 
 
 class SNAKE:
     def __init__(self,
                  snake_id,
+                 is_ai=False,
                  start_direction=RIGHT_VECTOR,
+                 previous_direction=LEFT_VALUE,
                  initial_vector=[Vector2(5, 10), Vector2(
                      4, 10), Vector2(3, 10)],
                  snake_col=snake_color,
@@ -25,6 +27,7 @@ class SNAKE:
             snakecol (color, optional): The color of the snake squares. Defaults to snake_color.
             dn (str, optional): A name to help debug the snake. Defaults to "snek".
         """
+        self.is_ai = is_ai
         self.ID = snake_id
         self.name = snake_name
         self.body = initial_vector
@@ -45,7 +48,7 @@ class SNAKE:
         # Down is 2
         # Left is 3
         # Right is 4
-        self.previous_direction = RIGHT_VALUE
+        self.previous_direction = previous_direction
         self.start_direction = self.previous_direction
         self.close_amount = close.get_close_amount()
         self.increment = 0
@@ -138,7 +141,7 @@ class SNAKE:
     def move_snake(self):
         """Moves the snake in a vector direction
         """
-
+        # print(f"{self.name} is ! ai")
         self.correct_movement()
         if self.increment >= self.speed:
             self.last_movement = self.direction
@@ -234,6 +237,9 @@ class SNAKE:
 
     def set_snake_moved(self, input: bool):
         self.moved = input
+
+    def get_head(self):
+        return self.body[0]
 
     def boost(self):
         self.speed = self.boosted_speed

@@ -8,7 +8,6 @@
 # The version of pygame being developed with is "pygame 2.1.3.dev8 (SDL 2.0.22, Python 3.11.0)"
 import pygame
 import time
-import torch
 from close_amount import *
 from draw_slow import *
 from draw_speed import *
@@ -43,7 +42,7 @@ def main(screen):
     # Creates an array of fruit
     fruits = []
     for i in range(2):
-        fruits.append(FRUIT())
+        fruits.append(FRUIT(id=i))
 
     # speed_power = []
     # for i in range(1):
@@ -64,12 +63,14 @@ def main(screen):
                     snake_name="Blue")
     snake_2 = SNAKE(1,
                     start_direction=LEFT_VECTOR,
+                    previous_direction=LEFT_VALUE,
                     initial_vector=[Vector2(int(CELL_NUMBER/2-4),
                                             int(CELL_NUMBER/2)),
                                     Vector2(int(CELL_NUMBER/2-3),
                                             int(CELL_NUMBER/2)),
                                     Vector2(int(CELL_NUMBER/2-2),
                                             int(CELL_NUMBER/2))],
+                    is_ai=True,
                     snake_col=python_yellow_color,
                     snake_name="Yellow",
                     head_path="Assets/yellowsnake/Python Game Yellow Head.png",
@@ -87,7 +88,7 @@ def main(screen):
     # temptime2 = 2000
     temptime2 = random.randint(0, 5000) * random.randint(0, 50)
     pygame.time.set_timer(SCREEN_UPDATE, 60)
-    pygame.time.set_timer(WALL_UPDATE, 3600)
+    pygame.time.set_timer(WALL_UPDATE, 4500)
     pygame.time.set_timer(SPEED_SPAWN, temptime)
     pygame.time.set_timer(SLOW_SPAWN, temptime2)
     # draw_speed = DRAW_SPEED(False)
@@ -111,8 +112,6 @@ def main(screen):
     while True:
         # this rectangle is so we can set the game to be in the center of the screen
 
-        # FIXME snake clips through itself if you press down and right at the same time or up and left
-        # hours wasted = 5
         # the event loop, captures stuff like keypresses and mouse movement
         for event in pygame.event.get():
             # debug line to see what events are happening
@@ -131,10 +130,12 @@ def main(screen):
             if (len(slow_power) < max_slow):
                 slow_power += spawn_slow_power(event)
             # moves snake_1 with the arrow keys (blue snek)
-            arrow_move(event, snake_1)
+            arrow_move(event, snake_1, fruits)
             # print(snake_1.get_snake_moved())
             # moves snake_2 with the W/A/S/D keys
-            arrow_move(event, snake_2,
+            arrow_move(event,
+                       snake_2,
+                       fruits,
                        up=pygame.K_w,
                        down=pygame.K_s,
                        left=pygame.K_a,
@@ -215,7 +216,9 @@ pygame.init()
 # Creates the main screen with the amount of cells and the size of them
 screen = pygame.display.set_mode(
     (CELL_NUMBER * (CELL_SIZE+16), CELL_NUMBER * (CELL_SIZE+1)), pygame.RESIZABLE)
-
+pygame.display.set_caption("Pythons")
+pygame.display.set_icon(pygame.image.load(
+    "Assets/ICON.png").convert_alpha())
 while True:
     result = main(screen)
     time.sleep(0.5)

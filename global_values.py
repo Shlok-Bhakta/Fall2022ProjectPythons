@@ -28,8 +28,6 @@ wall_cutoff = 7
 # creates a score
 score = TOTAL_SCORE(0, 0)
 
-# font
-
 
 # The colors of the game
 screen_color = (180, 215, 70)
