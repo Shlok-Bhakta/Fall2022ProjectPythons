@@ -99,6 +99,8 @@ class FRUIT:
         return self.pos
 
     def out_fruit(self):
+        """checks if the fruit is outside the bounds
+        """
         global CELL_NUMBER
         self.close_amount = close.get_close_amount()
         if not self.close_amount <= self.pos.x < CELL_NUMBER-self.close_amount:

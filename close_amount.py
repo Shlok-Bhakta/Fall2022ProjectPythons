@@ -1,6 +1,9 @@
 
 
 class CLOSE_AMOUNT:
+    """a value to show the code how much its closed in
+    """
+
     def __init__(self, initial_amount):
         self.close_amount = initial_amount
 

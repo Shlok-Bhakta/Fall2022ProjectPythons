@@ -90,6 +90,8 @@ class SLOW_POWER:
         return self.pos
 
     def out_slow_power(self):
+        """checks if the slow_power is out of bounds
+        """
         global CELL_NUMBER
         self.close_amount = close.get_close_amount()
         # print("outpower")

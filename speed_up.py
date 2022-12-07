@@ -90,6 +90,8 @@ class SPEED_POWER:
         return self.pos
 
     def out_speed_power(self):
+        """checks if the speed powerup is out of bounds
+        """
         global CELL_NUMBER
         self.close_amount = close.get_close_amount()
         # print("outpower")

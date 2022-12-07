@@ -4,6 +4,13 @@ from global_values import *
 
 class BUTTON():
     def __init__(self, image, scale, value):
+        """inits a clickable button
+
+        Args:
+            image (_type_): _description_
+            scale (_type_): _description_
+            value (_type_): _description_
+        """
         width = image.get_width()
         height = image.get_height()
         self.image = pygame.transform.scale(
@@ -13,6 +20,16 @@ class BUTTON():
         self.val = value
 
     def draw(self, screen, x, y):
+        """draws the button
+
+        Args:
+            screen (_type_): _description_
+            x (_type_): _description_
+            y (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         action = self.mouse()
 
         self.rect.center = (x, y)
@@ -20,6 +37,11 @@ class BUTTON():
         return action
 
     def mouse(self):
+        """gets if its clicked
+
+        Returns:
+            _type_: _description_
+        """
         action = False
         pos = pygame.mouse.get_pos()
         # print(pos)

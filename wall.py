@@ -65,6 +65,11 @@ class WALL:
         # print(len(self.walls))
 
     def update(self, screen):
+        """updates the screen with the current wall
+
+        Args:
+            screen (_type_): _description_
+        """
         self.draw_wall(screen)
         self.close_amount = close.get_close_amount()
         #print(f"wall Close Amount {self.close_amount}")

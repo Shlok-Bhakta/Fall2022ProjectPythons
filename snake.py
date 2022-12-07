@@ -19,13 +19,20 @@ class SNAKE:
                  body_path="Assets/bluesnake/Python Game Blue Body.png",
                  corner_path="Assets/bluesnake/Python Game Blue Turn.png",
                  tail_path="Assets/bluesnake/Python Game Blue Tail.png"):
-        """Creates a snake
+        """creates the snake class
 
         Args:
-            start_direction (Vector2, optional): What direction will the snake start to go in. Defaults to RIGHT_VECTOR.
-            initial_vector (list of Vector2, optional): The start positions of the snake. Defaults to [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)].
-            snakecol (color, optional): The color of the snake squares. Defaults to snake_color.
-            dn (str, optional): A name to help debug the snake. Defaults to "snek".
+            snake_id (_type_): _description_
+            is_ai (bool, optional): _description_. Defaults to False.
+            start_direction (_type_, optional): _description_. Defaults to RIGHT_VECTOR.
+            previous_direction (_type_, optional): _description_. Defaults to LEFT_VALUE.
+            initial_vector (list, optional): _description_. Defaults to [Vector2(5, 10), Vector2( 4, 10), Vector2(3, 10)].
+            snake_col (_type_, optional): _description_. Defaults to snake_color.
+            snake_name (str, optional): _description_. Defaults to "snek".
+            head_path (str, optional): _description_. Defaults to "Assets/bluesnake/snake_head.png".
+            body_path (str, optional): _description_. Defaults to "Assets/bluesnake/Python Game Blue Body.png".
+            corner_path (str, optional): _description_. Defaults to "Assets/bluesnake/Python Game Blue Turn.png".
+            tail_path (str, optional): _description_. Defaults to "Assets/bluesnake/Python Game Blue Tail.png".
         """
         self.is_ai = is_ai
         self.ID = snake_id
@@ -117,6 +124,8 @@ class SNAKE:
             #pygame.draw.rect(screen, self.color, block_rect)
 
     def update_head_graphics(self):
+        """check the head graphics
+        """
         head_orientation = self.body[1]-self.body[0]
         if head_orientation == RIGHT_VECTOR:
             self.snake_head = pygame.transform.rotate(self.head, 0)
@@ -128,6 +137,8 @@ class SNAKE:
             self.snake_head = pygame.transform.rotate(self.head, 270)
 
     def update_tail_graphics(self):
+        """draws the tail 
+        """
         tail_orientation = self.body[-2]-self.body[-1]
         if tail_orientation == RIGHT_VECTOR:
             self.snake_tail = pygame.transform.rotate(self.tail, 180)
@@ -198,6 +209,8 @@ class SNAKE:
         #print("collision checked")
 
     def correct_movement(self):
+        """corrects the movement of the snake
+        """
         if self.direction == DOWN_VECTOR and self.last_movement == UP_VECTOR:
             self.direction = UP_VECTOR
         if self.direction == UP_VECTOR and self.last_movement == DOWN_VECTOR:
@@ -231,18 +244,40 @@ class SNAKE:
         return self.body
 
     def get_direction(self):
+        """gets the direction of the snake
+
+        Returns:
+            _type_: _description_
+        """
         return self.direction
 
     def get_snake_moved(self):
+        """checks if the snake moved for the correction
+
+        Returns:
+            _type_: _description_
+        """
         return self.moved
 
     def set_snake_moved(self, input: bool):
+        """sets if the snake moved
+
+        Args:
+            input (bool): _description_
+        """
         self.moved = input
 
     def get_head(self):
+        """gets the position of the head
+
+        Returns:
+            _type_: _description_
+        """
         return self.body[0]
 
     def boost(self):
+        """does the boosts logic
+        """
         self.speed = self.boosted_speed
         if self.boost_spent <= self.boosted_tiles:
             self.boost_spent += 1
@@ -251,6 +286,8 @@ class SNAKE:
             self.boost_spent = 0
 
     def slow(self):
+        """does the slow down logic
+        """
         self.speed = self.slow_speed
         if self.slow_spent <= self.slow_tiles:
             self.slow_spent += 1

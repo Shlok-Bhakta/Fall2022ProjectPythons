@@ -233,6 +233,12 @@ def window_resize(event, screen):
 
 
 def wall_update(event, wall):
+    """updates the wall to move it is
+
+    Args:
+        event (_type_): _description_
+        wall (_type_): _description_
+    """
     if event.type == WALL_UPDATE:
         if not (close.get_close_amount() > wall_cutoff):
             pygame.mixer.Sound(closing_sound).play()
