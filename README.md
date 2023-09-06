@@ -1,5 +1,8 @@
 # Fall 2022 ENGR Project for the class ENGR-102:416,516
 
+## If you want to play
+[Version 1](https://github.com/Shlok-Bhakta/Fall2022ProjectPythons/releases/tag/v1.0.0)
+
 ## Made by:
 
 - Shlok Bhakta
